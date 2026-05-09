@@ -12,6 +12,8 @@ const studyBtn = document.getElementById("studyBtn");
 
 let activeCategory = "Code";
 
+let editingId = null;
+
 let prompts = JSON.parse(localStorage.getItem("prompts")) || [];
 renderPrompts();
 
@@ -28,9 +30,27 @@ saveBtn.addEventListener("click", () => {
         id: Date.now(),
         text,
         category: activeCategory,
+        favorite: false,
     };
 
-    prompts.push(prompt);
+    if (editingId) {
+        prompts = prompts.map((prompt) =>
+            prompt.id === editingId
+                ? { ...prompt, text, category: activeCategory }
+                : prompt
+        );
+
+        editingId = null;
+
+        saveBtn.textContent = "Save Prompt";
+        saveBtn.classList.remove("bg-blue-700");
+        saveBtn.classList.add("bg-zinc-900");
+
+        showToast("Prompt updated!")
+    } else {
+        prompts.push(prompt);
+        showToast("Prompt saved!");
+    };
 
     localStorage.setItem("prompts", JSON.stringify(prompts));
 
@@ -95,7 +115,7 @@ function renderPrompts() {
     const searchText = searchInput.value.toLowerCase();
     const filterPrompts = prompts.filter((prompt) => prompt.text.toLowerCase().includes(searchText));
 
-    if (filterPrompts.length === 0){
+    if (filterPrompts.length === 0) {
         promptList.innerHTML = `
         <div class = "text-center py-16 border border-dashed border-zinc-300 rounded-3xl">
             <div class = "text-5xl mb-4">📝</div>
@@ -126,9 +146,21 @@ function renderPrompts() {
             <div class = "flex gap-2 shrink-0">
 
                 <button
+                onclick = "toggleFavorite(${prompt.id})"
+                class = "w-10 cursor-pointer h-10 flex items-center justify-center rounded-full bg-zinc-100 hover:bg-zinc-200 transition text-lg">
+                ${prompt.favorite ? "⭐" : "☆"}    
+                </button>
+
+                <button
                 onclick = "copyPrompt('${prompt.text}')"
                 class = "px-4 cursor-pointer py-2 rounded-full bg-zinc-100 text-sm transition hover:bg-zinc-200">
                 Copy
+                </button>
+
+                <button
+                onclick = "editPrompt(${prompt.id})"
+                class = "px-4 py-2 rounded-full bg-blue-50 hover:bg-blue-100 text-blue-500 text-sm transition">
+                Edit
                 </button>
 
                 <button
@@ -188,4 +220,40 @@ function updateCategoryUI() {
         studyBtn.classList.add("bg-zinc-900", "text-white");
         studyBtn.classList.remove("bg-zinc-100");
     }
+}
+
+function toggleFavorite(id) {
+    prompts = prompts.map((prompt) => {
+        if (prompt.id === id) {
+            return {
+                ...prompt,
+                favorite: !prompt.favorite,
+            };
+        }
+
+        return prompt;
+    });
+
+    localStorage.setItem("prompts", JSON.stringify(prompts));
+    renderPrompts();
+}
+
+function editPrompt(id) {
+    const prompt = prompts.find((p) => p.id === id);
+
+    if (!prompt) return;
+
+    promptInput.value = prompt.text;
+    charCount.textContent = `${prompt.text.length} characters`;
+
+    activeCategory = prompt.category;
+    updateCategoryUI();
+
+    editingId = id;
+
+    saveBtn.textContent = "✏️ Update Prompt";
+    saveBtn.classList.remove("bg-zinc-900");
+    saveBtn.classList.add("bg-zinc-700");
+
+    promptInput.focus();
 }

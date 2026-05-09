@@ -1,77 +1,95 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Prompt Playground</title>
-    <link rel="stylesheet" href="./src/output.css">
-    <link rel="stylesheet" href="./style.css">
-</head>
-<body class="bg-zinc-50 text-zinc-900 min-h-screen">
+    <link rel="stylesheet" href="./src/output.css" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body class="bg-zinc-50 text-zinc-900 min-h-screen">
     <main class="max-w-6xl mx-auto px-6 py-12">
+      <div class="flex justify-between items-center mb-8">
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Seach Prompts..."
+          class="w-72 px-4 py-2 rounded-full border border-zinc-200 outline-none focus:ring-2 focus:ring-zinc-300"
+        />
 
-        <div class="flex justify-between items-center mb-8">
-            <input
-             type="text"
-             id="searchInput"
-             placeholder="Seach Prompts..."
-             class="w-72 px-4 py-2 rounded-full border border-zinc-200 outline-none focus:ring-2 focus:ring-zinc-300"/>
-             
-             <button 
-              id="themeBtn"
-              class="px-4 py-2 rounded-full bg-white border border-zinc-200">🌙 Dark</button>
+        <button
+          id="themeBtn"
+          class="px-4 py-2 rounded-full bg-white border border-zinc-200"
+        >
+          🌙 Dark
+        </button>
+      </div>
+
+      <header class="mb-10">
+        <h1 class="text-4xl font-semibold tracking-tight">Prompt Playground</h1>
+        <p class="text-zinc-500 mt-2">Write, save and organize your prompts.</p>
+      </header>
+
+      <section class="grid md:grid-cols-2 gap-8">
+        <!-- left -->
+        <div class="bg-white rounded-3xl shadow-sm border border-zinc-200 p-6">
+          <div class="flex gap-2 mb-4">
+            <button
+              id="codeBtn"
+              class="px-4 py-2 rounded-full bg-zinc-900 text-white text-sm"
+            >
+              Code
+            </button>
+            <button
+              id="writingBtn"
+              class="px-4 py-2 rounded-full bg-zinc-100 text-sm"
+            >
+              Writing
+            </button>
+            <button
+              id="studyBtn"
+              class="px-4 py-2 rounded-full bg-zinc-100 text-sm"
+            >
+              Study
+            </button>
+          </div>
+
+          <textarea
+            id="promptInput"
+            class="w-full h-56 resize-none rounded-2xl border border-zinc-200 p-4 outline-none focus:ring-2 focus:ring-zinc-300"
+            placeholder="Write your prompt..."
+          ></textarea>
+
+          <div class="flex justify-between items-center mt-4">
+            <p id="charCount" class="text-sm text-zinc-500">0 characters</p>
+
+            <button
+              id="saveBtn"
+              class="px-5 cursor-pointer py-2 rounded-full bg-zinc-900 text-white"
+            >
+              Save Prompt
+            </button>
+          </div>
         </div>
 
-        <header class="mb-10">
-            <h1 class="text-4xl font-semibold tracking-tight ">
-                Prompt Playground
-            </h1>
-            <p class="text-zinc-500 mt-2">
-                Write, save and organize your prompts.
-            </p>
-        </header>
+        <!-- right -->
+        <div class="bg-white rounded-3xl shadow-sm border border-zinc-200 p-6">
+          <h2 class="text-xl font-medium mb-4">Saved Prompts</h2>
 
-        <section class="grid md:grid-cols-2 gap-8">
-
-            <!-- left -->
-             <div class="bg-white rounded-3xl shadow-sm border border-zinc-200 p-6">
-                <div class="flex gap-2 mb-4">
-                    <button id="codeBtn" class="px-4 py-2 rounded-full bg-zinc-900 text-white text-sm">
-                        Code
-                    </button>
-                    <button id="writingBtn" class="px-4 py-2 rounded-full bg-zinc-100 text-sm">
-                        Writing
-                    </button>
-                    <button id="studyBtn" class="px-4 py-2 rounded-full bg-zinc-100 text-sm">
-                        Study
-                    </button>
-                </div>
-
-             <textarea id="promptInput" class="w-full h-56 resize-none rounded-2xl border border-zinc-200 p-4 outline-none focus:ring-2 focus:ring-zinc-300"
-             placeholder="Write your prompt..."></textarea>
-
-             <div class="flex justify-between items-center mt-4">
-                <p id="charCount" class="text-sm text-zinc-500">0 characters</p>
-
-                <button id="saveBtn" class="px-5 cursor-pointer py-2 rounded-full bg-zinc-900 text-white">Save Prompt</button>
-             </div>
-            </div>
-
-            <!-- right -->
-             <div class="bg-white rounded-3xl shadow-sm border border-zinc-200 p-6">
-                <h2 class="text-xl font-medium mb-4">Saved Prompts</h2>
-
-                <div id="promptList" class="space-y-3">
-                    <!-- cards here -->
-                </div>
-
-             </div>
-             
-        </section>
+          <div id="promptList" class="space-y-3">
+            <!-- cards here -->
+          </div>
+        </div>
+      </section>
     </main>
 
-    <div id="toast" class="fixed bottom-6 right-6 bg-zinc-900 text-white px-5 py-3 rounded-2xl opacity-0 pointer-events-none transition">Saved</div>
+    <div
+      id="toast"
+      class="fixed bottom-6 right-6 bg-zinc-900 text-white px-5 py-3 rounded-2xl opacity-0 pointer-events-none transition"
+    >
+      Saved
+    </div>
 
-<script src="app.js"></script>
-</body>
+    <script src="app.js"></script>
+  </body>
 </html>
