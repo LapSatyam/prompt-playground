@@ -4,10 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prompt Playground</title>
-    <link href="./src/output.css" rel="stylesheet">
+    <link rel="stylesheet" href="./src/output.css">
+    <link rel="stylesheet" href="./style.css">
 </head>
 <body class="bg-zinc-50 text-zinc-900 min-h-screen">
     <main class="max-w-6xl mx-auto px-6 py-12">
+
+        <div class="flex justify-between items-center mb-8">
+            <input
+             type="text"
+             id="searchInput"
+             placeholder="Seach Prompts..."
+             class="w-72 px-4 py-2 rounded-full border border-zinc-200 outline-none focus:ring-2 focus:ring-zinc-300"/>
+             
+             <button 
+              id="themeBtn"
+              class="px-4 py-2 rounded-full bg-white border border-zinc-200">🌙 Dark</button>
+        </div>
 
         <header class="mb-10">
             <h1 class="text-4xl font-semibold tracking-tight ">
@@ -23,13 +36,13 @@
             <!-- left -->
              <div class="bg-white rounded-3xl shadow-sm border border-zinc-200 p-6">
                 <div class="flex gap-2 mb-4">
-                    <button class="px-4 py-2 rounded-full bg-zinc-900 text-white text-sm">
+                    <button id="codeBtn" class="px-4 py-2 rounded-full bg-zinc-900 text-white text-sm">
                         Code
                     </button>
-                    <button class="px-4 py-2 rofu' bg-zinc-100 text-sm">
+                    <button id="writingBtn" class="px-4 py-2 rounded-full bg-zinc-100 text-sm">
                         Writing
                     </button>
-                    <button class="px-4 py-2 rounded-full bg-zinc-100 text-sm">
+                    <button id="studyBtn" class="px-4 py-2 rounded-full bg-zinc-100 text-sm">
                         Study
                     </button>
                 </div>
@@ -40,7 +53,7 @@
              <div class="flex justify-between items-center mt-4">
                 <p id="charCount" class="text-sm text-zinc-500">0 characters</p>
 
-                <button id="saveBtn" class="px-5 py-2 rounded-full bg-zinc-900 text-white">Save Prompt</button>
+                <button id="saveBtn" class="px-5 cursor-pointer py-2 rounded-full bg-zinc-900 text-white">Save Prompt</button>
              </div>
             </div>
 
@@ -56,6 +69,8 @@
              
         </section>
     </main>
+
+    <div id="toast" class="fixed bottom-6 right-6 bg-zinc-900 text-white px-5 py-3 rounded-2xl opacity-0 pointer-events-none transition">Saved</div>
 
 <script src="app.js"></script>
 </body>
