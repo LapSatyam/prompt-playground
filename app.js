@@ -63,14 +63,15 @@ saveBtn.addEventListener("click", () => {
     renderPrompts();
 
     const firstCard = promptList.firstElementChild;
-    firstCard.classList.add("animate-fadeIn");
+
+    if (firstCard) {
+        firstCard.classList.add("animate-fadeIn");
+    };
 
     console.log(prompts);
 
     promptInput.value = "";
     charCount.textContent = "0 characters";
-
-    showToast("Prompt Saved!");
 });
 
 promptInput.addEventListener("keydown", (e) => {
@@ -136,6 +137,7 @@ fileInput.addEventListener("change", (e) => {
         try {
             const importedPrompts = JSON.parse(event.target.result);
 
+            if (!Array.isArray(importedPrompts)) throw new Error();
             prompts = importedPrompts;
 
             localStorage.setItem("prompts", JSON.stringify(prompts));
@@ -167,7 +169,7 @@ promptList.addEventListener("click", (e) => {
     }
 
     if (action === "copy") {
-        copyPrompt(id);
+        copyPrompt(text);
     }
 
     if (action === "delete") {
@@ -187,7 +189,7 @@ promptList.addEventListener("dragover", (e) => {
 });
 
 promptList.addEventListener("drop", (e) => {
-    const targetCard = e.target.closest("[data-id");
+    const targetCard = e.target.closest("[data-id]");
     if (!targetCard || draggedId === null) return;
 
     const targetId = Number(targetCard.dataset.id);
