@@ -229,7 +229,17 @@ function renderPrompts() {
         return;
     }
 
-    [...filterPrompts].reverse().forEach((prompt) => {
+    const sortedPrompts = [...filterPrompts].sort((a, b) => {
+        const favoriteDiff = b.favorite - a.favorite;
+
+        if (favoriteDiff !== 0) {
+            return favoriteDiff;
+        }
+
+        return b.id - a.id;
+    });
+
+    sortedPrompts.forEach((prompt) => {
 
         promptList.innerHTML += `
         <div class="border border-zinc-200 rounded-3xl p-5 hover:shadow-md transition-all duration-300 bg-zinc-50 hover:-translate-y-1"
@@ -256,7 +266,7 @@ function renderPrompts() {
                 </button>
 
                 <button
-                data-action = "copy" data-id = "${prompt.text}"
+                data-action = "copy" data-text = "${prompt.text}"
                 class = "px-4 cursor-pointer py-2 rounded-full bg-zinc-100 text-sm transition hover:bg-zinc-200">
                 Copy
                 </button>
