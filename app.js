@@ -150,6 +150,31 @@ fileInput.addEventListener("change", (e) => {
     reader.readAsText(file);
 });
 
+promptList.addEventListener("click", (e) => {
+    const button = e.target.closest("button");
+
+    if (!button) return;
+
+    const action = button.dataset.action;
+    const id = Number(button.dataset.id);
+    const text = button.dataset.text;
+
+    if (action === "favorite") {
+        toggleFavorite(id);
+    }
+
+    if (action === "edit") {
+        editPrompt(id);
+    }
+
+    if (action === "copy") {
+        copyPrompt(id);
+    }
+
+    if (action === "delete") {
+        deletePrompt(id);
+    }
+});
 
 
 
@@ -193,25 +218,25 @@ function renderPrompts() {
             <div class = "flex gap-2 shrink-0">
 
                 <button
-                onclick = "toggleFavorite(${prompt.id})"
+                data-action = "favorite" data-id = "${prompt.id}"
                 class = "w-10 cursor-pointer h-10 flex items-center justify-center rounded-full bg-zinc-100 hover:bg-zinc-200 transition text-lg">
                 ${prompt.favorite ? "⭐" : "☆"}    
                 </button>
 
                 <button
-                onclick = "copyPrompt('${prompt.text}')"
+                data-action = "copy" data-id = "${prompt.text}"
                 class = "px-4 cursor-pointer py-2 rounded-full bg-zinc-100 text-sm transition hover:bg-zinc-200">
                 Copy
                 </button>
 
                 <button
-                onclick = "editPrompt(${prompt.id})"
+                data-action = "edit" data-id = "${prompt.id}"
                 class = "px-4 py-2 rounded-full bg-blue-50 hover:bg-blue-100 text-blue-500 text-sm transition">
                 Edit
                 </button>
 
                 <button
-                onclick = "deletePrompt(${prompt.id})" 
+                data-action = "delete" data-id = "${prompt.id}"
                 class = "px-4 cursor-pointer py-2 rounded-full bg-red-50 hover:bg-red-100 text-red-500 text-sm transition">
                 Delete
                 </button>
