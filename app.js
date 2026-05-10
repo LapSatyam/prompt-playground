@@ -8,6 +8,7 @@ const themeBtn = document.getElementById("themeBtn");
 const codeBtn = document.getElementById("codeBtn");
 const writingBtn = document.getElementById("writingBtn");
 const studyBtn = document.getElementById("studyBtn");
+const exportBtn = document.getElementById("exportBtn");
 
 
 let activeCategory = "Code";
@@ -102,6 +103,22 @@ studyBtn.addEventListener("click", () => {
     updateCategoryUI();
 });
 
+exportBtn.addEventListener("click", () => {
+    const data = JSON.stringify(prompts, null, 2);
+
+    const blob = new Blob([data], { type: "application/json" });
+
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "prompts.json";
+    a.click();
+
+    URL.revokeObjectURL(url);
+
+    showToast("Exported!");
+});
 
 
 
