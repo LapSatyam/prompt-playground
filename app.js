@@ -9,6 +9,8 @@ const codeBtn = document.getElementById("codeBtn");
 const writingBtn = document.getElementById("writingBtn");
 const studyBtn = document.getElementById("studyBtn");
 const exportBtn = document.getElementById("exportBtn");
+const importBtn = document.getElementById("importBtn");
+const fileInput = document.getElementById("fileInput");
 
 
 let activeCategory = "Code";
@@ -118,6 +120,34 @@ exportBtn.addEventListener("click", () => {
     URL.revokeObjectURL(url);
 
     showToast("Exported!");
+});
+
+importBtn.addEventListener("click", () => {
+    fileInput.click();
+});
+
+fileInput.addEventListener("change", (e) => {
+    const file = e.target.files[0];
+
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = (event) => {
+        try {
+            const importedPrompts = JSON.parse(event.target.result);
+
+            prompts = importedPrompts;
+
+            localStorage.setItem("prompts", JSON.stringify(prompts));
+            renderPrompts();
+            showToast("Imported!");
+        } catch {
+            showToast("Invalid JSON File!");
+        }
+    };
+
+    reader.readAsText(file);
 });
 
 

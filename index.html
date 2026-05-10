@@ -17,7 +17,14 @@
           class="w-72 px-4 py-2 rounded-full border border-zinc-200 outline-none focus:ring-2 focus:ring-zinc-300"
         />
 
-        <div class="flex gap-3">
+        <div class="flex gap-x-1.5">
+          <button
+            id="importBtn"
+            class="px-4 py-2 rounded-full bg-white border border-zinc-200 text-sm hover:bg-zinc-100 hover:border-zinc-50"
+          >
+            Import JSON
+            <input type="file" accept=".json" class="hidden" id="fileInput" />
+          </button>
           <button
             id="exportBtn"
             class="px-4 py-2 rounded-full border border-zinc-200 text-sm hover:bg-zinc-100 hover:border-zinc-50"
