@@ -13,11 +13,14 @@ const importBtn = document.getElementById("importBtn");
 const fileInput = document.getElementById("fileInput");
 
 
+
+applyTheme(localStorage.getItem("theme") || "light");
+
+let draggedId = null;
 let activeCategory = "Code";
-
 let editingId = null;
-
 let prompts = JSON.parse(localStorage.getItem("prompts")) || [];
+
 renderPrompts();
 
 promptInput.addEventListener("input", () => {
@@ -81,13 +84,9 @@ searchInput.addEventListener("input", () => {
 });
 
 themeBtn.addEventListener("click", () => {
-    document.body.classList.toggle("dark");
+    const currentTheme = localStorage.getItem("theme") === "dark" ? "light" : "dark"
 
-    if (document.body.classList.contains("dark")) {
-        themeBtn.textContent = "☀️ Light";
-    } else {
-        themeBtn.textContent = "🌙 Dark";
-    };
+    applyTheme(currentTheme);
 });
 
 codeBtn.addEventListener("click", () => {
@@ -176,6 +175,36 @@ promptList.addEventListener("click", (e) => {
     }
 });
 
+promptList.addEventListener("dragstart", (e) => {
+    const card = e.target.closest("[data-id]");
+    if (!card) return;
+
+    draggedId = Number(card.dataset.id);
+});
+
+promptList.addEventListener("dragover", (e) => {
+    e.preventDefault();
+});
+
+promptList.addEventListener("drop", (e) => {
+    const targetCard = e.target.closest("[data-id");
+    if (!targetCard || draggedId === null) return;
+
+    const targetId = Number(targetCard.dataset.id);
+
+    const draggedIndex = prompts.findIndex((p) => p.id === draggedId);
+    const targetIndex = prompts.findIndex((p) => p.id === targetId);
+
+    const [draggedItem] = prompts.splice(draggedIndex, 1);
+
+    prompts.splice(targetIndex, 0, draggedItem);
+
+    localStorage.setItem("prompts", JSON.stringify(prompts));
+    renderPrompts();
+
+    draggedId = null;
+});
+
 
 
 
@@ -201,8 +230,11 @@ function renderPrompts() {
     }
 
     [...filterPrompts].reverse().forEach((prompt) => {
+
         promptList.innerHTML += `
-        <div class="border border-zinc-200 rounded-3xl p-5 hover:shadow-md transition-all duration-300 bg-white hover:-translate-y-1">
+        <div class="border border-zinc-200 rounded-3xl p-5 hover:shadow-md transition-all duration-300 bg-zinc-50 hover:-translate-y-1"
+        draggable = "true"
+        data-id = "${prompt.id}">
 
           <div class = "flex justify-between items-start gap-4">
 
@@ -292,7 +324,7 @@ function updateCategoryUI() {
         studyBtn.classList.add("bg-zinc-900", "text-white");
         studyBtn.classList.remove("bg-zinc-100");
     }
-}
+};
 
 function toggleFavorite(id) {
     prompts = prompts.map((prompt) => {
@@ -308,7 +340,7 @@ function toggleFavorite(id) {
 
     localStorage.setItem("prompts", JSON.stringify(prompts));
     renderPrompts();
-}
+};
 
 function editPrompt(id) {
     const prompt = prompts.find((p) => p.id === id);
@@ -328,4 +360,18 @@ function editPrompt(id) {
     saveBtn.classList.add("bg-zinc-700");
 
     promptInput.focus();
-}
+};
+
+function applyTheme(theme) {
+    const isDark = theme === "dark";
+
+    document.body.classList.toggle("bg-zinc-950", isDark);
+    document.body.classList.toggle("text-white", isDark);
+
+    document.body.classList.toggle("bg-zinc-50", !isDark);
+    document.body.classList.toggle("text-zinc-900", !isDark);
+
+    themeBtn.textContent = isDark ? "☀️" : "🌙";
+
+    localStorage.setItem("theme", theme);
+};
