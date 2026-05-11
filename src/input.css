@@ -1,1 +1,5 @@
 @import "tailwindcss";
+
+.shad-btn {
+  @apply shadow-black transition-all duration-300 shadow-sm hover:shadow-lg active:shadow-sm  border border-zinc-400 hover:bg-zinc-100 hover:border-zinc-50 active:border-zinc-400 active:bg-white;
+}
